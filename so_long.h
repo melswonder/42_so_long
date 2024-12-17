@@ -1,21 +1,44 @@
 #ifndef SO_LONG_H
-#define SO_LONG_H
+# define SO_LONG_H
 #endif
 
 #define x_max 1800
 #define y_max 1800
 
-typedef struct coordinate
+#define w_key 25
+#define a_key 38
+#define s_key 39
+#define d_key 40
+#define up_key 111
+#define down_key 116
+#define right_key 114
+#define left_key 113
+#define esc_key 9
+
+int			key_event(int keycode, void *param);
+
+typedef struct i_data
 {
-	int x;
-	int y;
-} XYcoordinate;
-
-
-typedef struct	s_data {
 	void	*img;
+	int		x;
+	int		y;
+}			img_data;
+
+typedef struct s_data
+{
+	void	*mlx;
+	void	*mlx_win;
+	void	*win_img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+	img_data *buck_img;
+	img_data *xpm_img;
+}			t_setting;
+
+// typedef struct coordinate
+// {
+// 	int x;
+// 	int y;
+// } XYcoordinate;

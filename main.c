@@ -6,74 +6,84 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/13 14:41:51 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:45:12 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minilibx-linux/mlx.h"
+#include "so_long.h"
 #include <X11/Xlib.h>
 #include <X11/extensions/XShm.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
-// typedef struct s_vars
-// {
-// 	void *mlx;
-// 	void *win;
-// }	t_vars;
-
-// int close(int keycode,t_vars *vars)
-// {
-// 	mlx_destroy_window(vars->mlx,vars->win);
-// 	return(0);
-// }
-// int main(void)
-// {
-// 	t_vars	vars;
-
-// 	vars.mlx = mlx_init();
-// 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
-// 	mlx_hook(vars.win, 2, 1L<<0, close, &vars);
-// 	mlx_loop(vars.mlx);
-// }
-
-typedef struct s_data
+int close_window(void *param)
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		x;
-	int		y;
-}			t_data;
+	t_setting *sg = (t_setting *)param;
+	
+	mlx_destroy_image(sg->mlx,sg->buck_img->img);
+	mlx_destroy_image(sg->mlx,sg->xpm_img->img);
+	mlx_destroy_window(sg->mlx,sg->mlx_win);
+	mlx_destroy_display(sg->mlx);
+	
+	return (0);
+}
 
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	int x;
-	int y;
-	x = 0;
-	y = 0;
-	int xx = 200;
-	int yy = 200;
-	t_data	img;
-
-	void *buck_img;
-	void *xpm_img;
-	mlx = mlx_init(); //最初に宣言する
-	mlx_win = mlx_new_window(mlx, 1920, 1200, "HELLO WOULD!");
-	img.img = mlx_new_image(mlx, 1920, 1200);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			&img.endian);
-	buck_img = mlx_xpm_file_to_image(mlx, "xpm/buckground.xpm", &x, &y);
-	xpm_img = mlx_xpm_file_to_image(mlx, "xpm/main_character.xpm", &xx, &yy);
+	t_setting	*sg	= malloc(sizeof(t_setting));
+	sg->mlx = mlx_init(); //最初に宣言する
+	sg->mlx_win = mlx_new_window(sg->mlx, 1920, 1200, "HELLO WOULD!");
 	
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_put_image_to_window(mlx, mlx_win, buck_img, 0, 0);
-	mlx_put_image_to_window(mlx, mlx_win, xpm_img, 200, 200);
-	mlx_loop(mlx);
+	sg->buck_img = malloc(sizeof(img_data));
+	sg->xpm_img = malloc(sizeof(img_data));
+	sg->win_img = mlx_new_image(sg->mlx, 1920, 1200);
+	sg->addr = mlx_get_data_addr(sg->win_img, &sg->bits_per_pixel,
+			&sg->line_length, &sg->endian);
+	sg->buck_img->img = mlx_xpm_file_to_image(sg->mlx, "xpm/buckground.xpm",
+			&sg->buck_img->x, &sg->buck_img->y);
+	sg->xpm_img->img = mlx_xpm_file_to_image(sg->mlx, "xpm/main_character.xpm",
+			&sg->xpm_img->x, &sg->xpm_img->y);
+	//キーイベントのフック
+	mlx_hook(sg->mlx_win, 2, 1L << 0, key_event, sg);
+	
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->win_img, 0, 0);
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, sg->buck_img->x,
+		sg->buck_img->y);
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->xpm_img->img, sg->xpm_img->x,
+		sg->xpm_img->y);
+	mlx_hook(sg->mlx_win, 17, 0, close_window, sg);
+	
+	mlx_loop(sg->mlx);
+
+	return (0);
+}
+int	key_event(int keycode, void *param)
+{
+	t_setting	*sg = (t_setting *)param;
+	if (keycode == esc_key)
+		exit(0);
+	// sg->xpm_img->y += (keycode == w_key) * 200 - (keycode == s_key) * 200;
+	// sg->xpm_img->x += (keycode == d_key) * 200 - (keycode == a_key) * 200;
+	// sg->xpm_img->y += (keycode == up_key) * 200 - (keycode == down_key) * 200;
+	// sg->xpm_img->x += (keycode == down_key) * 200 - (keycode == left_key) * 200;
+
+    if (keycode == w_key || keycode == up_key)
+        sg->xpm_img->y -= 200;
+    if (keycode == s_key || keycode == down_key)
+        sg->xpm_img->y += 200;
+    if (keycode == a_key || keycode == left_key)
+        sg->xpm_img->x -= 200;
+    if (keycode == d_key || keycode == right_key)
+        sg->xpm_img->x += 200;
+
+	mlx_clear_window(sg->mlx,sg->mlx_win); //再描画
+    mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->win_img, 0, 0);
+    mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, sg->buck_img->x, sg->buck_img->y);
+    mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->xpm_img->img, sg->xpm_img->x, sg->xpm_img->y);
+	return (0);
 }
 // cc main.c -L. -lmlx_Linux -lXext -lX11
 // cc main.c minilibx-linux/libmlx.a -L. -lXext -lX11
