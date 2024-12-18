@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/18 18:45:38 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:00:58 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <stdio.h>
+
 
 int close_window(void *param)
 {
@@ -35,6 +36,8 @@ int close_window(void *param)
 int	main(void)
 {
 	t_setting	*sg	= malloc(sizeof(t_setting));
+	// sg->xpm_img->x = 0;
+	// sg->xpm_img->y = 0;
 	sg->mlx = mlx_init(); //最初に宣言する
 	sg->mlx_win = mlx_new_window(sg->mlx, 1920, 1200, "HELLO WOULD!");
 	
@@ -51,10 +54,8 @@ int	main(void)
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->win_img, 0, 0);
-	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, sg->buck_img->x,
-		sg->buck_img->y);
-	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->xpm_img->img, sg->xpm_img->x,
-		sg->xpm_img->y);
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0,0);
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->xpm_img->img, sg->xpm_img->x,sg->xpm_img->y);
 	mlx_hook(sg->mlx_win, 17, 0, close_window, sg);
 	
 	mlx_loop(sg->mlx);
@@ -74,23 +75,17 @@ int	handle_key_event(int keycode, void *param)
 	// sg->xpm_img->y += (keycode == up_key) * 200 - (keycode == down_key) * 200;
 	// sg->xpm_img->x += (keycode == down_key) * 200 - (keycode == left_key) * 200;
     if (keycode == w_key || keycode == up_key)
-	{
         sg->xpm_img->y -= 200;
-		printf("up\n");
-	}
     if (keycode == s_key || keycode == down_key)
-	{
         sg->xpm_img->y += 200;
-		printf("down\n");
-	}
     if (keycode == a_key || keycode == left_key)
         sg->xpm_img->x -= 200;
     if (keycode == d_key || keycode == right_key)
         sg->xpm_img->x += 200;
-
+	printf("x:%d y:%d\n",sg->xpm_img->x,sg->xpm_img->y);
 	mlx_clear_window(sg->mlx,sg->mlx_win); //再描画
     mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->win_img, 0, 0);
-    mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, sg->buck_img->x, sg->buck_img->y);
+    mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
     mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->xpm_img->img, sg->xpm_img->x, sg->xpm_img->y);
 	return (0);
 }

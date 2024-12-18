@@ -5,15 +5,15 @@
 #define x_max 1800
 #define y_max 1800
 
-#define w_key 25
-#define a_key 38
-#define s_key 39
-#define d_key 40
-#define left_key 65361
-#define up_key 65362
-#define right_key 65363
-#define down_key 65364
-#define esc_key 65307
+#define w_key 		119
+#define a_key 		97
+#define s_key 		115
+#define d_key 		100
+#define left_key 	65361
+#define up_key 		65362
+#define right_key 	65363
+#define down_key 	65364
+#define esc_key 	65307
 
 int				handle_key_event(int keycode, void *param);
 
