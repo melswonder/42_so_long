@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"mlx_int.h": "c",
+		"xutil.h": "c",
+		"xlib.h": "c"
+	}
+}
