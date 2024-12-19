@@ -40,7 +40,7 @@ typedef struct i_data
 	int y;
 	int width;
 	int height;
-} img_data;
+} 			img_data;
 
 typedef struct s_data
 {
@@ -55,8 +55,3 @@ typedef struct s_data
 	img_data *chara_img;
 } t_setting;
 
-// typedef struct coordinate
-// {
-// 	int x;
-// 	int y;
-// } XYcoordinate;
