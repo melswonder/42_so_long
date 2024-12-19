@@ -31,7 +31,8 @@ int 		handle_key_event(int keycode, void *param);
 void 		*ft_calloc(size_t count, size_t size);
 t_setting 	*setting_new(void);
 int 		close_window(t_setting *sg);
-void		setting_delete(t_setting *sg)
+void		setting_delete(t_setting *sg);
+void		setting_print(t_setting *sg)
 
 typedef struct i_data
 {

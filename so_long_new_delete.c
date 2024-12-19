@@ -6,7 +6,7 @@
 /*   By: loremipsum <loremipsum@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/19 13:35:36 by loremipsum       ###   ########.fr       */
+/*   Updated: 2024/12/19 13:53:33 by loremipsum       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ t_setting *setting_new(void)
 											   &sg->chara_img->height);
 	return (sg);
 }
-void setting_print(void)
+void setting_print(t_setting *sg)
 {
-	printf("mlx:%d,mlx_win:%d,bits_per_pixel:%d,line_length:%d,endian:%d\n", sg->mlx, sg->mlx_win, sg->bits_per_pixel, sg->line_length, sg->endian);
-	return (0);
+	if(sg == NULL)
+		return ;
+    printf("Window: %p\n", sg->mlx_win);
+    printf("Background Image: %p (x:%d, y:%d)\n", sg->buck_img->img, sg->buck_img->x, sg->buck_img->y);
+    printf("Character Image: %p (x:%d, y:%d)\n", sg->chara_img->img, sg->chara_img->x, sg->chara_img->y);
 }
 void setting_delete(t_setting *sg) // free する際にnullチェックをすることで多樹freeを防ぐ
 {
