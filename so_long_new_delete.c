@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_new_delete.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loremipsum <loremipsum@student.42.fr>      +#+  +:+       +#+        */
+/*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/19 13:53:33 by loremipsum       ###   ########.fr       */
+/*   Updated: 2024/12/21 11:24:48 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ void setting_delete(t_setting *sg) // free する際にnullチェックをする
 	if (sg->buck_img != NULL)
 	{
 		if (sg->buck_img->img != NULL)
-			mlx_destroy_image(sg->buck_img->img);
+			mlx_destroy_image(sg->mlx,sg->buck_img->img);
 	}
 	if (sg->buck_img != NULL)
 	{
 		if (sg->buck_img->img != NULL)
-			mlx_destroy_image(sg->chara_img->img);
+			mlx_destroy_image(sg->mlx,sg->chara_img->img);
 	}
 	if (sg->mlx_win != NULL)
-		mlx_destroy_window(sg->mlx.sg->mlx_win);
+		mlx_destroy_window(sg->mlx,sg->mlx_win);
 	if (sg->mlx != NULL)
 	{
 		mlx_destroy_display(sg->mlx);

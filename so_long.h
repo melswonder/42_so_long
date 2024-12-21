@@ -1,18 +1,16 @@
 #ifndef SO_LONG_H
-#define SO_LONG_H
+# define SO_LONG_H
 #endif
 
 #include "minilibx-linux/mlx.h"
 #include <X11/Xlib.h>
 #include <X11/extensions/XShm.h>
+#include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-
-#include <stdlib.h>
-#include <limits.h>
-#include <stdint.h>
 
 #define x_max 1920
 #define y_max 1200
@@ -27,32 +25,31 @@
 #define down_key 65364
 #define esc_key 65307
 
-int 		handle_key_event(int keycode, void *param);
-void 		*ft_calloc(size_t count, size_t size);
-t_setting 	*setting_new(void);
-int 		close_window(t_setting *sg);
-void		setting_delete(t_setting *sg);
-void		setting_print(t_setting *sg)
-
 typedef struct i_data
 {
-	void *img;
-	int x;
-	int y;
-	int width;
-	int height;
-} 			img_data;
+	void		*img;
+	int			x;
+	int			y;
+	int			width;
+	int			height;
+}				img_data;
 
 typedef struct s_data
 {
-	void *mlx;
-	void *mlx_win;
+	void		*mlx;
+	void		*mlx_win;
 	// void		*board_img;
 	// char		*addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
-	img_data *buck_img;
-	img_data *chara_img;
-} t_setting;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	img_data	*buck_img;
+	img_data	*chara_img;
+}				t_setting;
 
+int				handle_key_event(int keycode, void *param);
+void			*ft_calloc(size_t count, size_t size);
+int				close_window(t_setting *sg);
+void			setting_delete(t_setting *sg);
+void	setting_print(t_setting *sg);
+t_setting		*setting_new(void);
