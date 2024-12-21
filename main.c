@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/21 15:11:22 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/22 03:02:28 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	handle_key_event(int keycode, void *param)
 		printf("esc\n");
 		setting_delete(sg);
 		setting_print(sg);
+		free(sg);
+		free(param);
 		exit(0);
 	}
 	printf("x:%d y:%d\n", sg->chara_img->x, sg->chara_img->y); //座標出力

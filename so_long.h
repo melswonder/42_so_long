@@ -38,14 +38,13 @@ typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
-	// void		*board_img;
-	// char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
 	img_data	*buck_img;
 	img_data	*chara_img;
 }				t_setting;
+
 
 int				handle_key_event(int keycode, void *param);
 void			*ft_calloc(size_t count, size_t size);
