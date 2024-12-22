@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/22 03:03:09 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:25:39 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_setting *setting_new(void)
 	// sg->board_img = mlx_new_image(sg->mlx, 1920, 1200);
 	// imgs
 	sg->buck_img = malloc(sizeof(img_data));
-	sg->buck_img->img = mlx_xpm_file_to_image(sg->mlx, "xpm/buckground.xpm",
+	sg->buck_img->img = mlx_xpm_file_to_image(sg->mlx, "xpm/buck.xpm",
 											  &sg->buck_img->x, &sg->buck_img->y);
 	sg->chara_img = malloc(sizeof(img_data));
 	sg->chara_img->x = 0;
