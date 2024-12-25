@@ -5,15 +5,18 @@
 #include "minilibx-linux/mlx.h"
 #include <X11/Xlib.h>
 #include <X11/extensions/XShm.h>
+#include <fcntl.h> // open
 #include <limits.h>
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h>  // NULL, size_t
+#include <stdlib.h> // malloc, free
+#include <string.h> // strlen
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <unistd.h> // write, read, close
 
-#define x_max 1920
-#define y_max 1200
+#define x_max 1920 //決めないほうがいい
+#define y_max 1200 //決めないほうがいい
 
 #define w_key 119
 #define a_key 97
@@ -45,10 +48,31 @@ typedef struct s_data
 	img_data	*chara_img;
 }				t_setting;
 
+typedef struct s_map
+{
+	char **map; // マップ本体(行の配列)
+	int height; // 行数
+	int width;  // 列数
+	int totalC; // マップに存在する'C'の総数
+	int			countP;
+	int			countE;
+	int start_x; // 'P'のx座標
+	int start_y; // 'P'のy座標
+}				t_map;
 
-int				handle_key_event(int keycode, void *param);
-void			*ft_calloc(size_t count, size_t size);
-int				close_window(t_setting *sg);
-void			setting_delete(t_setting *sg);
-void	setting_print(t_setting *sg);
-t_setting		*setting_new(void);
+typedef struct s_read
+{
+	char		buf[2];
+	char		*line;
+	int			ret;
+	int			len;
+	char		*new_line;
+	int			i;
+}				t_read;
+
+void map_new(t_map *m);
+char *ft_readline(int fd);
+int ft_strlen(const char *str);
+int check_errors_findP(t_map *m);
+void put_error_map_delete(t_map *m);
+int backtrack(t_map *m, int x, int y, int *collected, int **visited);

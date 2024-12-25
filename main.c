@@ -6,20 +6,11 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/22 13:32:24 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/25 19:36:53 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-
-void	img_delete(void)
-{
-}
-void	img_print(void)
-{
-}
-
 
 int	main(void)
 {
@@ -39,6 +30,8 @@ int	handle_key_event(int keycode, void *param)
 
 	sg = (t_setting *)param;
 	setting_print(sg);
+	if(!map_check())
+		return(0);
 	if (keycode == esc_key)
 	{
 		printf("esc\n");
