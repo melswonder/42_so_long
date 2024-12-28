@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:04:08 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 12:38:28 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:51:17 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_collection(t_map *m)
 {
 	int	x;
 	int	y;
-	
+
 	y = 0;
 	while (y < m->height)
 	{
@@ -64,9 +64,67 @@ int	check_collection(t_map *m)
 		y++;
 	}
 	if (m->countP != 1 || m->totalC < 1 || m->countE < 1)
-	{
-		printf("p:%d,c:%d,e:%d\n",m->countP,m->totalC,m->countE);
 		return (0);
+	return (1);
+}
+int	check_errors_findP(t_map *m)
+{
+	int	y;
+	int	x;
+
+	if (!check_rectangle(m) || !check_collection(m))
+		return (0);
+	y = 0;
+	while (y < m->height)
+	{
+		x = 0;
+		while (x < m->width)
+		{
+			if (m->map[y][x] == 'P')
+			{
+				m->start_x = x;
+				m->start_y = y;
+			}
+			x++;
+		}
+		y++;
 	}
 	return (1);
+}
+int	is_valid(t_map *m, int x, int y, int **visited)
+{
+	if (x >= 0 && x < m->width && y >= 0 && y < m->height)
+	{
+		if (m->map[y][x] != '1' && visited[y][x] == 0)
+			return (1);
+	}
+	return (0);
+}
+int	backtrack(t_map *m, int x, int y, int *collected, int **visited)
+{
+	int dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+	int i;
+	int nx;
+	int ny;
+
+	if (m->map[y][x] == 'C')
+		(*collected)++;
+	if (m->map[y][x] == 'E' && (*collected) == m->totalC)
+		return (1);
+	visited[y][x] = 1;
+	i = 0;
+	while (i < 4)
+	{
+		nx = x + dirs[i][0];
+		ny = y + dirs[i][1];
+		if (is_valid(m, nx, ny, visited))
+		{
+			if (backtrack(m, nx, ny, collected, visited) == 1)
+				return (1);
+			if (m->map[ny][nx] == 'C')
+				(*collected)--;
+		}
+		i++;
+	}
+	return (visited[y][x] = 0, 0);
 }

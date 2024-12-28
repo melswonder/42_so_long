@@ -6,117 +6,11 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 12:46:09 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:23:47 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-char *ft_readline(int fd)
-{
-    int  buf_size = 128;
-    char *buf = malloc(buf_size);
-    int  i = 0;
-    char c;
-
-    if (!buf) return NULL;
-    while (read(fd, &c, 1) > 0)
-    {
-        if (c == '\n')
-            break;
-        buf[i++] = c;
-        if (i == buf_size - 1)
-        {
-            buf_size *= 2;
-            buf = realloc(buf, buf_size);
-            if (!buf) return NULL;
-        }
-    }
-    if (i == 0 && c != '\n')
-    {
-        free(buf);
-        return NULL;
-    }
-    buf[i] = '\0';
-    return buf;
-}
-
-int	check_errors_findP(t_map *m)
-{
-	int	y;
-	int	x;
-
-	if (!check_rectangle(m) || !check_collection(m))
-	{
-		printf("errrr");
-		return (0);
-	}
-	y = 0;
-	while (y < m->height)
-	{
-		x = 0;
-		while (x < m->width)
-		{
-			if (m->map[y][x] == 'P')
-			{
-				m->start_x = x;
-				m->start_y = y;
-			}
-			x++;
-		}
-		y++;
-	}
-	return (1);
-}
-
-int	is_valid(t_map *m, int x, int y, int **visited)
-{
-	if (x >= 0 && x < m->width && y >= 0 && y < m->height)
-	{
-		if (m->map[y][x] != '1' && visited[y][x] == 0)
-			return (1);
-	}
-	return (0);
-}
-
-int	backtrack(t_map *m, int x, int y, int *collected, int **visited)
-{
-	int	dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-	int	i;
-	int	nx;
-	int	ny;
-	if (m->map[y][x] == 'C')
-		(*collected)++;
-	if (m->map[y][x] == 'E' && (*collected) == m->totalC)
-		return (1);
-	visited[y][x] = 1;
-	i = 0;
-	while (i < 4)
-	{
-		nx = x + dirs[i][0];
-		ny = y + dirs[i][1];
-		if (is_valid(m, nx, ny, visited))
-		{
-			if (backtrack(m, nx, ny, collected, visited) == 1)
-				return (1);
-			if (m->map[ny][nx] == 'C')
-				(*collected)--;
-		}
-		i++;
-	}
-	return (visited[y][x] = 0, 0);
-}
-int	open_file(const char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-	{
-		write(1, "Error\n", 6);
-	}
-	return (fd);
-}
 
 void	save_mapsize(int fd, t_map *m)
 {
@@ -142,18 +36,6 @@ int	allocate_memory(t_map *m)
 	return (1);
 }
 
-int	reopen_file(const char *filename, int *fd)
-{
-	close(*fd);
-	*fd = open(filename, O_RDONLY);
-	if (*fd < 0)
-	{
-		write(1, "Error\n", 6);
-		return (0);
-	}
-	return (1);
-}
-
 void	load_map(t_map *m, int fd)
 {
 	char	*line;
@@ -167,71 +49,43 @@ void	load_map(t_map *m, int fd)
 	}
 }
 
-int **initialize_visited(t_map *m) {
-    int **visited = (int **)malloc(sizeof(int *) * m->height);
-    if (!visited) {
-        write(1, "Error\n", 6);
-        return NULL;
-    }
-    for (int i = 0; i < m->height; i++) {
-        visited[i] = (int *)malloc(sizeof(int) * m->width);
-        if (!visited[i]) {
-            write(1, "Error\n", 6);
-            for (int j = 0; j < i; j++) {
-                free(visited[j]);
-            }
-            free(visited);
-            return NULL;
-        }
-        memset(visited[i], 0, sizeof(int) * m->width);
-    }
-    return visited;
-}
-
-void cleanup(t_map *m, int **visited) {
-    for (int i = 0; i < m->height; i++) {
-        free(visited[i]);
-        free(m->map[i]);
-    }
-    free(visited);
-    free(m->map);
-}
-
-int main(void) {
-    int fd = open_file("maps/date");
-    if (fd < 0) return 1;
-
-    t_map m;
-    map_new(&m);
-    save_mapsize(fd, &m);
-
-    if (!allocate_memory(&m)) {
-        close(fd);
-        return 1;
-    }
-
-    if (!reopen_file("maps/date", &fd)) {
-        free(m.map);
-        return 1;
-    }
-
-    load_map(&m, fd);
-    close(fd);
-
-    int **visited = initialize_visited(&m);
-    if (check_errors_findP(&m) == 0 || !visited) {
-        put_error_map_delete(&m);
-        return 1;
-    }
-
-    int collected = 0;
-    int reachable = backtrack(&m, m.start_x, m.start_y, &collected, visited);
-    if (reachable == 0) 
+void	cleanup(t_map *m, int **visited)
+{
+	for (int i = 0; i < m->height; i++)
 	{
-		printf("s");
-		write(1, "Error\n", 6);
-		
+		free(visited[i]);
+		free(m->map[i]);
 	}
-    cleanup(&m, visited);
-    return 0;
+	free(visited);
+	free(m->map);
+}
+
+// int check_valid_map(void)
+int	main(void)
+{
+	int		fd;
+	t_map	m;
+	int		**visited;
+	int		collected;
+	int		reachable;
+
+	fd = open_file("maps/date");
+	if (fd < 0)
+		return (1);
+	map_new(&m);
+	save_mapsize(fd, &m);
+	if (!allocate_memory(&m))
+		return (close(fd), 1);
+	if (!reopen_file("maps/date", &fd))
+		return (free(m.map), 1);
+	load_map(&m, fd);
+	close(fd);
+	visited = initialize_visited(&m);
+	if (check_errors_findP(&m) == 0 || !visited)
+		return (put_error_map_delete(&m), 1);
+	collected = 0;
+	reachable = backtrack(&m, m.start_x, m.start_y, &collected, visited);
+	if (reachable == 0)
+		write(1, "Error\n", 6);
+	return (cleanup(&m, visited), 0);
 }

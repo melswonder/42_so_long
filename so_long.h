@@ -70,11 +70,18 @@ typedef struct s_read
 	int			i;
 }				t_read;
 
-void map_new(t_map *m);
-char *ft_readline(int fd);
-int ft_strlen(const char *str);
-int check_errors_findP(t_map *m);
-void put_error_map_delete(t_map *m);
-int	check_collection(t_map *m);
-int	check_rectangle(t_map *m);
-int backtrack(t_map *m, int x, int y, int *collected, int **visited);
+int				check_errors_findP(t_map *m);
+void			map_new(t_map *m);
+int				open_file(const char *filename);
+char			*ft_readline(int fd);
+int				ft_strlen(const char *str);
+char			*ft_readline(int fd);
+int				reopen_file(const char *filename, int *fd);
+int				check_errors_findP(t_map *m);
+void			put_error_map_delete(t_map *m);
+void			cleanup(t_map *m, int **visited);
+int				check_collection(t_map *m);
+int				**initialize_visited(t_map *m);
+int				check_rectangle(t_map *m);
+int				backtrack(t_map *m, int x, int y, int *collected,
+					int **visited);
