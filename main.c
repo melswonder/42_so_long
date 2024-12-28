@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 14:51:06 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 15:58:20 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,16 @@ int	handle_key_event(int keycode, void *param)
 int	main(void)
 {
 	t_setting	*sg;
+	int			ret;
 
 	sg = setting_new();
-	if(&check_valid_map)
-		return(0);
+	ret = check_valid_map(); 
+	if(ret != 0)
+	{
+		setting_delete(sg);
+		free(sg);
+		return(1);
+	}
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,sg->chara_img->x, sg->chara_img->y);

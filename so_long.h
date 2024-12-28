@@ -71,6 +71,7 @@ typedef struct s_read
 }				t_read;
 
 int				check_errors_findP(t_map *m);
+void			setting_delete(t_setting *sg);
 void			*ft_calloc(size_t count, size_t size);
 void			map_new(t_map *m);
 int				open_file(const char *filename);
