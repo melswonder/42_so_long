@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:04:08 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/25 17:53:30 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 12:38:28 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	check_collection(t_map *m)
 {
 	int	x;
 	int	y;
+	
+	y = 0;
 	while (y < m->height)
 	{
 		x = 0;
@@ -62,6 +64,9 @@ int	check_collection(t_map *m)
 		y++;
 	}
 	if (m->countP != 1 || m->totalC < 1 || m->countE < 1)
+	{
+		printf("p:%d,c:%d,e:%d\n",m->countP,m->totalC,m->countE);
 		return (0);
+	}
 	return (1);
 }

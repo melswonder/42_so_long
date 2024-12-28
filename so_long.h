@@ -75,4 +75,6 @@ char *ft_readline(int fd);
 int ft_strlen(const char *str);
 int check_errors_findP(t_map *m);
 void put_error_map_delete(t_map *m);
+int	check_collection(t_map *m);
+int	check_rectangle(t_map *m);
 int backtrack(t_map *m, int x, int y, int *collected, int **visited);

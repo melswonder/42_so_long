@@ -6,32 +6,39 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/25 21:32:42 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 12:46:09 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-char *ft_readline(int fd) {
-    int buffer_size = 1024; // 適切なバッファサイズを確保
-    char *buffer = (char *)malloc(buffer_size);
-    if (!buffer) return NULL;
-    int i = 0;
+char *ft_readline(int fd)
+{
+    int  buf_size = 128;
+    char *buf = malloc(buf_size);
+    int  i = 0;
     char c;
-    while (read(fd, &c, 1) > 0 && c != '\n') {
-        if (i >= buffer_size - 1) {
-            buffer_size *= 2;
-            buffer = realloc(buffer, buffer_size);
-            if (!buffer) return NULL;
+
+    if (!buf) return NULL;
+    while (read(fd, &c, 1) > 0)
+    {
+        if (c == '\n')
+            break;
+        buf[i++] = c;
+        if (i == buf_size - 1)
+        {
+            buf_size *= 2;
+            buf = realloc(buf, buf_size);
+            if (!buf) return NULL;
         }
-        buffer[i++] = c;
     }
-    if (i == 0 && c != '\n') { // ファイルの終端に達した場合
-        free(buffer);
+    if (i == 0 && c != '\n')
+    {
+        free(buf);
         return NULL;
     }
-    buffer[i] = '\0'; // 文字列の終端を設定
-    return buffer;
+    buf[i] = '\0';
+    return buf;
 }
 
 int	check_errors_findP(t_map *m)
@@ -39,8 +46,11 @@ int	check_errors_findP(t_map *m)
 	int	y;
 	int	x;
 
-	if (!check_rectangle(m) && !check_collection(m))
+	if (!check_rectangle(m) || !check_collection(m))
+	{
+		printf("errrr");
 		return (0);
+	}
 	y = 0;
 	while (y < m->height)
 	{
@@ -75,14 +85,13 @@ int	backtrack(t_map *m, int x, int y, int *collected, int **visited)
 	int	i;
 	int	nx;
 	int	ny;
-
 	if (m->map[y][x] == 'C')
 		(*collected)++;
 	if (m->map[y][x] == 'E' && (*collected) == m->totalC)
 		return (1);
 	visited[y][x] = 1;
 	i = 0;
-	while (i++ < 4)
+	while (i < 4)
 	{
 		nx = x + dirs[i][0];
 		ny = y + dirs[i][1];
@@ -93,6 +102,7 @@ int	backtrack(t_map *m, int x, int y, int *collected, int **visited)
 			if (m->map[ny][nx] == 'C')
 				(*collected)--;
 		}
+		i++;
 	}
 	return (visited[y][x] = 0, 0);
 }
@@ -216,8 +226,12 @@ int main(void) {
 
     int collected = 0;
     int reachable = backtrack(&m, m.start_x, m.start_y, &collected, visited);
-    if (reachable == 0) write(1, "Error\n", 6);
-
+    if (reachable == 0) 
+	{
+		printf("s");
+		write(1, "Error\n", 6);
+		
+	}
     cleanup(&m, visited);
     return 0;
 }
