@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 16:27:44 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 18:11:18 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ void	cleanup(t_map *m, int **visited)
 	free(m->map);
 }
 
-int check_valid_map(void)
+int check_valid_map(t_map *m)
 {
     int		fd;
-    t_map	m;
     int		**visited;
     int		collected;
     int		reachable;
@@ -71,23 +70,23 @@ int check_valid_map(void)
     fd = open_file("maps/date");
     if (fd < 0)
         return (0);
-    map_new(&m);
-    save_mapsize(fd, &m);
-    if (!allocate_memory(&m))
+    map_new(m);
+    save_mapsize(fd, m);
+    if (!allocate_memory(m))
         return (close(fd), 0);
     if (!reopen_file("maps/date", &fd))
-        return (free(m.map), 0);
-    load_map(&m, fd);
+        return (free(m->map), 0);
+    load_map(m, fd);
     close(fd);
-    visited = initialize_visited(&m);
-    if (check_errors_findP(&m) == 0 || !visited)
-        return (put_error_map_delete(&m), 0);
+    visited = initialize_visited(m);
+    if (check_errors_findP(m) == 0 || !visited)
+        return (put_error_map_delete(m), 0);
     collected = 0;
-    reachable = backtrack(&m, m.start_x, m.start_y, &collected, visited);
+    reachable = backtrack(m, m->start_x, m->start_y, &collected, visited);
     if (reachable == 0)
     {
         write(1, "Error\n", 6);
-        return (cleanup(&m, visited), 0);
+        return (cleanup(m, visited), 0);
     }
-    return (cleanup(&m, visited), 1);
+    return (cleanup(m, visited), 1);
 }

@@ -70,7 +70,13 @@ typedef struct s_read
 	int			i;
 }				t_read;
 
+typedef struct s_host_information
+{
+	int			move_count;
+}				t_host_info;
+
 int				check_errors_findP(t_map *m);
+t_host_info		*host_new(void);
 void			setting_delete(t_setting *sg);
 void			*ft_calloc(size_t count, size_t size);
 void			map_new(t_map *m);
@@ -88,4 +94,5 @@ int				check_rectangle(t_map *m);
 int				backtrack(t_map *m, int x, int y, int *collected,
 					int **visited);
 t_setting		*setting_new(void);
-int				check_valid_map(void);
+int				check_valid_map(t_map *m);
+void			setup_map_environment(t_setting *sg, t_map *m);

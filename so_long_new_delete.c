@@ -6,11 +6,19 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 17:06:10 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:55:25 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+t_host_info *host_new(void)
+{
+	t_host_info *host;
+	host = (t_host_info *)malloc(sizeof(t_host_info));
+	host->move_count = 0;
+	return(host);
+}
 
 t_setting *setting_new(void)
 {
