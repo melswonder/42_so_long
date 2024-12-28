@@ -6,11 +6,19 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 15:58:20 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:08:47 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+// void esc_free(t_setting *sg)
+// {
+// 		printf("esc\n");
+// 		setting_delete(sg);
+// 		free(sg);
+// 		exit(0);
+// }
 
 int	handle_key_event(int keycode, void *param)
 {
@@ -19,11 +27,11 @@ int	handle_key_event(int keycode, void *param)
 	sg = (t_setting *)param;
 	if (keycode == esc_key)
 	{
-		printf("esc\n");
-		// setting_delete(sg);
+		setting_delete(sg);
 		free(sg);
+		sg = NULL;
 		free(param);
-		exit(0);
+		exit(0);	
 	}
 	printf("x:%d y:%d\n", sg->chara_img->x, sg->chara_img->y); //座標出力
 	if (keycode == w_key || (keycode == up_key && sg->chara_img->y > 0)) 
@@ -45,14 +53,11 @@ int	main(void)
 	t_setting	*sg;
 	int			ret;
 
-	sg = setting_new();
 	ret = check_valid_map(); 
-	if(ret != 0)
-	{
-		setting_delete(sg);
-		free(sg);
-		return(1);
-	}
+	if(ret == 0)
+		return(0);
+	sg = setting_new();
+	
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,sg->chara_img->x, sg->chara_img->y);

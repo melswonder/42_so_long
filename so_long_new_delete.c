@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/22 13:25:39 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:06:10 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_setting *setting_new(void)
 {
 	t_setting *sg;
-
+	
 	sg = ft_calloc(1, sizeof(t_setting));
 	sg->mlx = mlx_init();
 	sg->mlx_win = mlx_new_window(sg->mlx, 1920, 1200, "HELLO WOULD!");
