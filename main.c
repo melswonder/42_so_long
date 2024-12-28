@@ -6,37 +6,21 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/25 19:36:53 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:51:06 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main(void)
-{
-	t_setting	*sg;
-
-	sg = setting_new();
-	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
-	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
-	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,sg->chara_img->x, sg->chara_img->y);
-	// mlx_hook(sg->mlx_win, 17, 0, close_window, sg);
-	mlx_loop(sg->mlx);
-	return (0);
-}
 int	handle_key_event(int keycode, void *param)
 {
 	t_setting	*sg;
 
 	sg = (t_setting *)param;
-	setting_print(sg);
-	if(!map_check())
-		return(0);
 	if (keycode == esc_key)
 	{
 		printf("esc\n");
-		setting_delete(sg);
-		setting_print(sg);
+		// setting_delete(sg);
 		free(sg);
 		free(param);
 		exit(0);
@@ -54,6 +38,20 @@ int	handle_key_event(int keycode, void *param)
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,
 		sg->chara_img->x, sg->chara_img->y);
+	return (0);
+}
+int	main(void)
+{
+	t_setting	*sg;
+
+	sg = setting_new();
+	if(&check_valid_map)
+		return(0);
+	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
+	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,sg->chara_img->x, sg->chara_img->y);
+	// mlx_hook(sg->mlx_win, 17, 0, close_window, sg);
+	mlx_loop(sg->mlx);
 	return (0);
 }
 // cc main.c so_long_util.c so_long_new_delete.c -L. -lmlx_Linux -lXext -lX11

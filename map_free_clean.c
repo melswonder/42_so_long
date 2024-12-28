@@ -6,9 +6,11 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 14:22:08 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 14:22:14 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:29:16 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "so_long.h"
 
 void	cleanup(t_map *m, int **visited)
 {

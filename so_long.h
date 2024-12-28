@@ -71,6 +71,7 @@ typedef struct s_read
 }				t_read;
 
 int				check_errors_findP(t_map *m);
+void			*ft_calloc(size_t count, size_t size);
 void			map_new(t_map *m);
 int				open_file(const char *filename);
 char			*ft_readline(int fd);
@@ -85,3 +86,5 @@ int				**initialize_visited(t_map *m);
 int				check_rectangle(t_map *m);
 int				backtrack(t_map *m, int x, int y, int *collected,
 					int **visited);
+t_setting		*setting_new(void);
+int				check_valid_map(void);

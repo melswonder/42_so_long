@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buck.c                                             :+:      :+:    :+:   */
+/*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 14:23:47 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:28:33 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ void	cleanup(t_map *m, int **visited)
 	free(m->map);
 }
 
-// int check_valid_map(void)
-int	main(void)
+int check_valid_map(void)
 {
 	int		fd;
 	t_map	m;
