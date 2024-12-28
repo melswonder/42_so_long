@@ -37,17 +37,6 @@ typedef struct i_data
 	int			height;
 }				img_data;
 
-typedef struct s_data
-{
-	void		*mlx;
-	void		*mlx_win;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	img_data	*buck_img;
-	img_data	*chara_img;
-}				t_setting;
-
 typedef struct s_map
 {
 	char **map; // マップ本体(行の配列)
@@ -59,6 +48,20 @@ typedef struct s_map
 	int start_x; // 'P'のx座標
 	int start_y; // 'P'のy座標
 }				t_map;
+
+typedef struct s_data
+{
+	void		*mlx;
+	void		*mlx_win;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	t_map		*m;
+	img_data	*buck_img;
+	img_data	*chara_img;
+	img_data	*wall_img;
+}				t_setting;
+
 
 typedef struct s_read
 {
@@ -78,7 +81,6 @@ typedef struct s_host_information
 int				check_errors_findP(t_map *m);
 t_host_info		*host_new(void);
 void			setting_delete(t_setting *sg);
-void			*ft_calloc(size_t count, size_t size);
 void			map_new(t_map *m);
 int				open_file(const char *filename);
 char			*ft_readline(int fd);
@@ -94,5 +96,6 @@ int				check_rectangle(t_map *m);
 int				backtrack(t_map *m, int x, int y, int *collected,
 					int **visited);
 t_setting		*setting_new(void);
+void			map_info_put(t_setting *sg, t_map *m);
 int				check_valid_map(t_map *m);
 void			setup_map_environment(t_setting *sg, t_map *m);
