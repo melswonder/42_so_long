@@ -43,8 +43,8 @@ typedef struct s_map
 	int height; // 行数
 	int width;  // 列数
 	int totalC; // マップに存在する'C'の総数
-	int			countP;
-	int			countE;
+	int	countP;
+	int	countE;
 	int start_x; // 'P'のx座標
 	int start_y; // 'P'のy座標
 }				t_map;
@@ -60,6 +60,8 @@ typedef struct s_data
 	img_data	*buck_img;
 	img_data	*chara_img;
 	img_data	*wall_img;
+	img_data	*coin_img;
+	img_data	*exit_img;
 }				t_setting;
 
 

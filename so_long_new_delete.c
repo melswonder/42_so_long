@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 22:18:11 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:01:23 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_setting *setting_new(void)
 	sg->buck_img = malloc(sizeof(img_data));
 	sg->buck_img->img = mlx_xpm_file_to_image(sg->mlx, "xpm/buck.xpm",
 											  &sg->buck_img->x, &sg->buck_img->y);
-	printf("%p",sg->buck_img);//ここまで　描画d系内なぜ？？
 	sg->chara_img = malloc(sizeof(img_data));
 	sg->chara_img->x = 0;
 	sg->chara_img->y = 0;
@@ -48,6 +47,22 @@ t_setting *setting_new(void)
 	sg->wall_img->img = mlx_xpm_file_to_image(sg->mlx,
 											   "xpm/wall.xpm", &sg->wall_img->width,
 											   &sg->wall_img->height);
+	sg->coin_img = malloc(sizeof(img_data));
+	sg->coin_img->x = 0;
+	sg->coin_img->y = 0;
+	sg->coin_img->img = mlx_xpm_file_to_image(sg->mlx,
+											   "xpm/coin.xpm", &sg->coin_img->width,
+											   &sg->coin_img->height);
+	sg->exit_img = malloc(sizeof(img_data));
+	sg->exit_img->x = 0;
+	sg->exit_img->y = 0;
+	sg->exit_img->img = mlx_xpm_file_to_image(sg->mlx,
+											   "xpm/exit.xpm", &sg->exit_img->width,
+											   &sg->exit_img->height);
+	printf("buck%p\n",sg->buck_img->img);
+	printf("main%p\n",sg->chara_img->img);
+	printf("wall%p\n",sg->wall_img->img);
+	printf("coin%p\n",sg->coin_img->img);
 	return (sg);
 }
 void setting_print(t_setting *sg)
@@ -76,6 +91,11 @@ void setting_delete(t_setting *sg) // free する際にnullチェックをする
 	{
 		if (sg->wall_img->img != NULL)
 			mlx_destroy_image(sg->mlx,sg->wall_img->img);
+	}
+	if (sg->coin_img != NULL)
+	{
+		if (sg->coin_img->img != NULL)
+			mlx_destroy_image(sg->mlx,sg->coin_img->img);
 	}
 	if (sg->mlx_win != NULL)
 		mlx_destroy_window(sg->mlx,sg->mlx_win);
