@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 22:15:42 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:35:20 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	main(void)
 	setup_map_environment(sg,sg->m);
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	put_all_xpm(sg);
-	// mlx_hook(sg->mlx_win, 17, 0, close_window, sg);
 	mlx_loop(sg->mlx);
 	return (0);
 }

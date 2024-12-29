@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 18:11:18 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:52:14 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,20 @@ int	allocate_memory(t_map *m)
 
 void	load_map(t_map *m, int fd)
 {
-	char	*line;
-	int		row;
+    char	*line;
+    int		row;
 
-	row = 0;
-	while ((line = ft_readline(fd)) != NULL)
-	{
-		m->map[row] = line;
-		row++;
-	}
+    row = 0;
+    while ((line = ft_readline(fd)) != NULL)
+    {
+        if (row >= m->height)
+        {
+            free(line);
+            break;
+        }
+        m->map[row] = line;
+        row++;
+    }
 }
 
 void	cleanup(t_map *m, int **visited)
