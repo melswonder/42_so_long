@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 18:27:11 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:37:13 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,80 +20,73 @@
 // 		exit(0);
 // }
 
-// void put_all_xpm(t_setting *sg,t_map *m) mapも再描画すう
 void	put_map(t_map *m)
 {
-	int i = 0;
-	while(m->map[i])
+	int	i;
+
+	i = 0;
+	while (m->map[i])
 	{
-		printf("%d:%s\n",i,m->map[i]);
+		printf("%d:%s\n", i, m->map[i]);
 		i++;
 	}
 }
-void put_all_xpm(t_setting *sg)
+
+void	put_all_xpm(t_setting *sg)
 {
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
-	map_info_put(sg,sg->m);
+	map_info_put(sg, sg->m);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,
 		sg->chara_img->y * 64, sg->chara_img->x * 64);
 }
 
-// int	handle_key_event(int keycode, void *param, t_map *m)　再描画のときにmap情報が必要
 int	handle_key_event(int keycode, void *param)
 {
 	t_setting	*sg;
-	static int count_c = 0;
-		
+	static int	count_c = 0;
+
 	sg = (t_setting *)param;
-	if (keycode == esc_key )
+	if (keycode == esc_key)
 	{
 		setting_delete(sg);
 		exit(0);
 	}
-	printf("chara:x:%d y:%d\n", sg->chara_img->x, sg->chara_img->y); //座標出力
-	printf("ここは:%c\n", sg->m->map[sg->chara_img->x][sg->chara_img->y]); //座標出力
-	if (keycode == a_key)
+	if (keycode == a_key || keycode == left_key)
 	{
-		// yを1減らす -> 上移動
 		if (sg->m->map[sg->chara_img->x][sg->chara_img->y - 1] != '1')
 			sg->chara_img->y--;
 	}
-	else if (keycode == d_key)
+	else if (keycode == d_key || keycode == right_key)
 	{
-		// yを1増やす -> 下移動
 		if (sg->m->map[sg->chara_img->x][sg->chara_img->y + 1] != '1')
 			sg->chara_img->y++;
 	}
-	else if (keycode == w_key)
+	else if (keycode == w_key || keycode == up_key)
 	{
-		// xを1減らす -> 左へ
 		if (sg->m->map[sg->chara_img->x - 1][sg->chara_img->y] != '1')
 			sg->chara_img->x--;
 	}
-	else if (keycode == s_key)
+	else if (keycode == s_key || keycode == down_key)
 	{
-		// xを1増やす -> 右へ
 		if (sg->m->map[sg->chara_img->x + 1][sg->chara_img->y] != '1')
 			sg->chara_img->x++;
 	}
-	if(sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'C')
+	if (sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'C')
 	{
 		sg->m->map[sg->chara_img->x][sg->chara_img->y] = '0';
 		count_c++;
 	}
-	if(sg->m->totalC == count_c && sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'E')
+	if (sg->m->totalC == count_c
+		&& sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'E')
 	{
 		setting_delete(sg);
 		exit(0);
 	}
-
-	mlx_clear_window(sg->mlx, sg->mlx_win); //再描画
+	mlx_clear_window(sg->mlx, sg->mlx_win);
 	put_all_xpm(sg);
-	// mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
-	// mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,
-	// 	sg->chara_img->x, sg->chara_img->y);
 	return (0);
 }
+
 int	main(void)
 {
 	t_setting	*sg;
@@ -105,7 +98,7 @@ int	main(void)
 	if (ret == 0)
 		return (0);
 	host = host_new();
-	setup_map_environment(sg,sg->m);
+	setup_map_environment(sg, sg->m);
 	put_map(sg->m);
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	put_all_xpm(sg);
@@ -113,4 +106,5 @@ int	main(void)
 	return (0);
 }
 // cc main.c so_long_util.c so_long_new_delete.c -L. -lmlx_Linux -lXext -lX11
-// cc main.c so_long_util.c so_long_new_delete.c minilibx-linux/libmlx.a -L.-lXext -lX11
+// cc main.c so_long_util.c so_long_new_delete.c 
+//minilibx-linux/libmlx.a-L.-lXext-lX11

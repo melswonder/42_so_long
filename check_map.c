@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:04:08 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 17:50:52 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:34:36 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,90 +14,84 @@
 
 int	check_rectangle(t_map *m)
 {
-    int	y;
-    int	x;
+	int	y;
+	int	x;
 
-    // 縦(height)方向にループ、各行が m->width 文字かをチェック
-    y = 0;
-    while (y < m->height)
-    {
-        if (ft_strlen(m->map[y]) != m->width)
-            return (0);
-        y++;
-    }
-    // 横(width)方向にループ、最上段・最下段が '1' で埋まっているかをチェック
-    x = 0;
-    while (x < m->width)
-    {
-        if (m->map[0][x] != '1' || m->map[m->height - 1][x] != '1')
-            return (0);
-        x++;
-    }
-    // 縦(height)方向にループ、左端・右端が '1' で埋まっているかをチェック
-    y = 0;
-    while (y < m->height)
-    {
-        if (m->map[y][0] != '1' || m->map[y][m->width - 1] != '1')
-            return (0);
-        y++;
-    }
-    return (1);
+	y = 0;
+	while (y < m->height)
+	{
+		if (ft_strlen(m->map[y]) != m->width)
+			return (0);
+		y++;
+	}
+	x = 0;
+	while (x < m->width)
+	{
+		if (m->map[0][x] != '1' || m->map[m->height - 1][x] != '1')
+			return (0);
+		x++;
+	}
+	y = 0;
+	while (y < m->height)
+	{
+		if (m->map[y][0] != '1' || m->map[y][m->width - 1] != '1')
+			return (0);
+		y++;
+	}
+	return (1);
 }
 
 int	check_collection(t_map *m)
 {
-    int	y;
-    int	x;
+	int	y;
+	int	x;
 
-    y = 0;
-    while (y < m->height)
-    {
-        x = 0;
-        while (x < m->width)
-        {
-            if (m->map[y][x] == 'P')
-                m->countP++;
-            else if (m->map[y][x] == 'C')
-                m->totalC++;
-            else if (m->map[y][x] == 'E')
-                m->countE++;
-            else if (m->map[y][x] != '0' && m->map[y][x] != '1')
-                return (0);
-            x++;
-        }
-        y++;
-    }
-    if (m->countP != 1 || m->totalC < 1 || m->countE < 1)
-        return (0);
-    return (1);
+	y = 0;
+	while (y < m->height)
+	{
+		x = 0;
+		while (x < m->width)
+		{
+			if (m->map[y][x] == 'P')
+				m->countP++;
+			else if (m->map[y][x] == 'C')
+				m->totalC++;
+			else if (m->map[y][x] == 'E')
+				m->countE++;
+			else if (m->map[y][x] != '0' && m->map[y][x] != '1')
+				return (0);
+			x++;
+		}
+		y++;
+	}
+	if (m->countP != 1 || m->totalC < 1 || m->countE < 1)
+		return (0);
+	return (1);
 }
 
-int	check_errors_findP(t_map *m)
+int	check_errors_find_p(t_map *m)
 {
-    int	y;
-    int	x;
+	int	y;
+	int	x;
 
-    // 上記チェック実行
-    if (!check_rectangle(m) || !check_collection(m))
-        return (0);
-
-    // P の位置を (start_y, start_x) に記録
-    y = 0;
-    while (y < m->height)
-    {
-        x = 0;
-        while (x < m->width)
-        {
-            if (m->map[y][x] == 'P')
-            {
-                m->start_y = y;
-                m->start_x = x;
-            }
-            x++;
-        }
-        y++;
-    }
-    return (1);
+	if (!check_rectangle(m) || !check_collection(m))
+		return (0);
+	y = 0;
+	while (y < m->height)
+	{
+		x = 0;
+		while (x < m->width)
+		{
+			if (m->map[y][x] == 'P')
+			{
+				m->start_y = y;
+				m->start_x = x;
+			}
+			x++;
+		}
+		y++;
+	}
+	return (1);
 }
 
 int	is_valid(t_map *m, int x, int y, int **visited)
@@ -109,12 +103,13 @@ int	is_valid(t_map *m, int x, int y, int **visited)
 	}
 	return (0);
 }
+
 int	backtrack(t_map *m, int x, int y, int *collected, int **visited)
 {
-	int dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-	int i;
-	int nx;
-	int ny;
+	int	dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+	int	i;
+	int	nx;
+	int	ny;
 
 	if (m->map[y][x] == 'C')
 		(*collected)++;

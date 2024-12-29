@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 15:01:23 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:27:42 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ t_setting *setting_new(void)
 	sg->exit_img->img = mlx_xpm_file_to_image(sg->mlx,
 											   "xpm/exit.xpm", &sg->exit_img->width,
 											   &sg->exit_img->height);
-	printf("buck%p\n",sg->buck_img->img);
-	printf("main%p\n",sg->chara_img->img);
-	printf("wall%p\n",sg->wall_img->img);
-	printf("coin%p\n",sg->coin_img->img);
+	// printf("buck%p\n",sg->buck_img->img);
+	// printf("main%p\n",sg->chara_img->img);
+	// printf("wall%p\n",sg->wall_img->img);
+	// printf("coin%p\n",sg->coin_img->img);
 	return (sg);
 }
 void setting_print(t_setting *sg)
