@@ -1,7 +1,7 @@
 NAME = so_long
 LIB = so_long.a
 
-SRCS = check_map.c map_new_delete.c map_open_read.c map_utils.c so_long_util.c so_long_new_delete.c view_window_info.c backtracking.c main.c
+SRCS = check_map.c map_new_delete.c map_open_read.c map_utils.c so_long_new_delete.c view_window_info.c backtracking.c main.c
 OBJS = $(SRCS:.c=.o)
 MINI = minilibx-linux/libmlx.a -L. -lXext -lX11
 CC = cc
