@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 16:41:47 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:27:11 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,58 +35,58 @@ void put_all_xpm(t_setting *sg)
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
 	map_info_put(sg,sg->m);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,
-		sg->chara_img->x*64, sg->chara_img->y * 64);
+		sg->chara_img->y * 64, sg->chara_img->x * 64);
 }
 
 // int	handle_key_event(int keycode, void *param, t_map *m)　再描画のときにmap情報が必要
 int	handle_key_event(int keycode, void *param)
 {
 	t_setting	*sg;
-
-	
+	static int count_c = 0;
+		
 	sg = (t_setting *)param;
-	if (keycode == esc_key)
+	if (keycode == esc_key )
 	{
 		setting_delete(sg);
 		exit(0);
 	}
 	printf("chara:x:%d y:%d\n", sg->chara_img->x, sg->chara_img->y); //座標出力
 	printf("ここは:%c\n", sg->m->map[sg->chara_img->x][sg->chara_img->y]); //座標出力
-	if (keycode == w_key || (keycode == up_key && sg->chara_img->y > 0))
+	if (keycode == a_key)
 	{
-		printf("行こうとしてる先は%c\n",sg->m->map[sg->chara_img->x][sg->chara_img->y-1]);
-		if(sg->m->map[sg->chara_img->x][sg->chara_img->y-1] != '1' && sg->m->map[sg->chara_img->x][sg->chara_img->y-1] != '\0')
-		{
-			// chack_exit()出口判定　カウント増やす	
-			sg->chara_img->y -= 1;
-		}
+		// yを1減らす -> 上移動
+		if (sg->m->map[sg->chara_img->x][sg->chara_img->y - 1] != '1')
+			sg->chara_img->y--;
 	}
-	if (keycode == s_key || (keycode == down_key && sg->chara_img->y < y_max))
+	else if (keycode == d_key)
 	{
-		printf("行こうとしてる先は%c\n",sg->m->map[sg->chara_img->x][sg->chara_img->y+1]);
-		if(sg->m->map[sg->chara_img->x][sg->chara_img->y+1] != '1' && sg->m->map[sg->chara_img->x][sg->chara_img->y+1] != '\0')
-		{
-			// chack_exit()出口判定　カウント増やす	
-			sg->chara_img->y += 1;
-		}
+		// yを1増やす -> 下移動
+		if (sg->m->map[sg->chara_img->x][sg->chara_img->y + 1] != '1')
+			sg->chara_img->y++;
 	}
-	if (keycode == a_key || (keycode == left_key && sg->chara_img->x > 0))
+	else if (keycode == w_key)
 	{
-		printf("行こうとしてる先は%c\n",sg->m->map[sg->chara_img->x-1][sg->chara_img->y]);
-		if(sg->m->map[sg->chara_img->x-1][sg->chara_img->y] != '1' && sg->m->map[sg->chara_img->x-1][sg->chara_img->y] != '\0')
-		{
-			sg->chara_img->x -= 1;
-		}
+		// xを1減らす -> 左へ
+		if (sg->m->map[sg->chara_img->x - 1][sg->chara_img->y] != '1')
+			sg->chara_img->x--;
 	}
-	if (keycode == d_key || (keycode == right_key && sg->chara_img->x < x_max))
+	else if (keycode == s_key)
 	{
-		printf("行こうとしてる先は%c\n",sg->m->map[sg->chara_img->x+1][sg->chara_img->y]);
-		if(sg->m->map[sg->chara_img->x+1][sg->chara_img->y] != '1' && sg->m->map[sg->chara_img->x+1][sg->chara_img->y] != '\0')
-		{
-			sg->chara_img->x += 1;
-		}
+		// xを1増やす -> 右へ
+		if (sg->m->map[sg->chara_img->x + 1][sg->chara_img->y] != '1')
+			sg->chara_img->x++;
 	}
-	
+	if(sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'C')
+	{
+		sg->m->map[sg->chara_img->x][sg->chara_img->y] = '0';
+		count_c++;
+	}
+	if(sg->m->totalC == count_c && sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'E')
+	{
+		setting_delete(sg);
+		exit(0);
+	}
+
 	mlx_clear_window(sg->mlx, sg->mlx_win); //再描画
 	put_all_xpm(sg);
 	// mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
