@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 23:02:16 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:25:36 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	main(void)
 	host = host_new();
 	setup_map_environment(sg, sg->m);
 	put_map(sg->m);
-	// mlx_hook(sg->mlx_win, 2, 1L << 17, exit_event, sg);
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	put_all_xpm(sg);
 	mlx_loop(sg->mlx);

@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 15:42:15 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:30:23 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	check_valid_map(t_map *m)
 {
 	int	fd;
 	int	**visited;
-	int	collected;
 	int	reachable;
 
 	fd = open_file("maps/date");
@@ -79,8 +78,8 @@ int	check_valid_map(t_map *m)
 	visited = initialize_visited(m);
 	if (check_errors_find_p(m) == 0 || !visited)
 		return (put_error_map_delete(m), 0);
-	collected = 0;
-	reachable = backtrack(m, m->start_x, m->start_y, &collected, visited);
+	m->collected = 0;
+	reachable = backtrack(m, m->start_x, m->start_y, visited);
 	if (reachable == 0)
 		return (write(1, "Error\n", 6), cleanup(m, visited), 0);
 	return (cleanup(m, visited), 1);

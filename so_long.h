@@ -6,39 +6,38 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:46:00 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 15:46:13 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:32:41 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-#endif
 
-#include "minilibx-linux/mlx.h"
-#include <X11/Xlib.h>
-#include <X11/extensions/XShm.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h> // strlen
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <unistd.h> // write, read, close
+# include "minilibx-linux/mlx.h"
+# include <X11/Xlib.h>
+# include <X11/extensions/XShm.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h> // strlen
+# include <sys/ipc.h>
+# include <sys/shm.h>
+# include <unistd.h> // write, read, close
 
-#define x_max 1920 //決めないほうがいい
-#define y_max 1200 //決めないほうがいい
+# define x_max 1920 //決めないほうがいい
+# define y_max 1200 //決めないほうがいい
 
-#define w_key 119
-#define a_key 97
-#define s_key 115
-#define d_key 100
-#define left_key 65361
-#define up_key 65362
-#define right_key 65363
-#define down_key 65364
-#define esc_key 65307
+# define w_key 119
+# define a_key 97
+# define s_key 115
+# define d_key 100
+# define left_key 65361
+# define up_key 65362
+# define right_key 65363
+# define down_key 65364
+# define esc_key 65307
 
 typedef struct i_data
 {
@@ -57,6 +56,7 @@ typedef struct s_map
 	int totalC; // マップに存在する'C'の総数
 	int			countP;
 	int			countE;
+	int			collected;
 	int start_x; // 'P'のx座標
 	int start_y; // 'P'のy座標
 }				t_map;
@@ -106,9 +106,9 @@ void			cleanup(t_map *m, int **visited);
 int				check_collection(t_map *m);
 int				**initialize_visited(t_map *m);
 int				check_rectangle(t_map *m);
-int				backtrack(t_map *m, int x, int y, int *collected,
-					int **visited);
+int				backtrack(t_map *m, int x, int y, int **visited);
 t_setting		*setting_new(void);
 void			map_info_put(t_setting *sg, t_map *m);
 int				check_valid_map(t_map *m);
 void			setup_map_environment(t_setting *sg, t_map *m);
+#endif
