@@ -1,37 +1,24 @@
 NAME = so_long
-LIB = so_long.a
-
-SRCS = check_map.c map_new_delete.c map_open_read.c map_free_clean.c map_error.c map_utils.c so_long_new_delete.c view_window_info.c backtracking.c main.c
-OBJS = $(SRCS:.c=.o)
-MINI = minilibx-linux/libmlx.a -L. -lXext -lX11
 CC = cc
-# CC = cc42
-CFLAGS = -Wall -Wextra -Werror -I .
+CFLAGS = -Wall -Wextra -Werror
+SRCS = main.c backtracking.c check_map.c map_utils.c \
+       map_error.c map_new_delete.c map_free_clean.c \
+       map_open_read.c so_long_new_delete.c view_window_info.c
+OBJS = $(SRCS:.c=.o)
+MINILIBX = minilibx-linux/libmlx.a -L. -lXext -lX11
 
-VAL = valgrind --leak-check=full ./$(NAME)
+all:	$(NAME)
 
-$(LIB): $(OBJS)
-	ar rc $(LIB) $(OBJS)
-	ranlib $(LIB)
-	chmod 755 $(LIB)
-
-$(NAME): $(LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MINI)
-
-all: $(NAME)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-v: $(NAME)
-	$(VAL)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MINILIBX)
 
 clean:
 	rm -f $(OBJS)
 
-f: clean
-	rm -f $(LIB) $(NAME)
+fclean: clean
+	rm -f $(NAME)
 
-re: f all
+re: fclean all
 
-.PHONY: all clean f re
+v: $(NAME)
+	valgrind --leak-check=full ./$(NAME)
