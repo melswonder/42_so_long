@@ -6,14 +6,20 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 11:39:19 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:31:48 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:28:17 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	map_new(t_map *m)
+void map_new(t_map *m)
 {
+	m = (t_map *)malloc(sizeof(t_map));
+	if(m == NULL)
+	{
+		free(m);
+		return;
+	}
 	m->map = 0;
 	m->height = 0;
 	m->width = 0;
@@ -26,6 +32,12 @@ void	map_new(t_map *m)
 
 void	gnl_new(t_read *sg)
 {
+	sg = (t_read *)malloc(sizeof(t_read));
+	if(sg == NULL)
+	{
+		free(sg);
+		return;
+	}
 	sg->line = NULL;
 	sg->ret = 0;
 	sg->len = 0;

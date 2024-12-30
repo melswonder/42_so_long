@@ -1,4 +1,5 @@
 NAME = so_long
+LIBNAME = so_long.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c backtracking.c check_map.c map_utils.c \
@@ -7,16 +8,20 @@ SRCS = main.c backtracking.c check_map.c map_utils.c \
 OBJS = $(SRCS:.c=.o)
 MINILIBX = minilibx-linux/libmlx.a -L. -lXext -lX11
 
-all:	$(NAME)
+all: $(NAME) $(LIBNAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MINILIBX)
+	chmod 777 $(NAME)
 
+$(LIBNAME): $(OBJS)
+	ar rcs $(LIBNAME) $(OBJS)
+	chmod 777 $(LIBNAME)
 clean:
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(LIBNAME)
 
 re: fclean all
 
