@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 21:24:56 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:42:15 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,6 @@ void	load_map(t_map *m, int fd)
 		row++;
 		line = ft_readline(fd);
 	}
-}
-
-void	cleanup(t_map *m, int **visited)
-{
-	int	i;
-
-	i = 0;
-	while (i < m->height)
-	{
-		free(visited[i]);
-		free(m->map[i]);
-		i++;
-	}
-	free(visited);
-	free(m->map);
 }
 
 int	check_valid_map(t_map *m)

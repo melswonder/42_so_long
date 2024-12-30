@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/29 22:58:30 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:29:32 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,14 @@ t_setting	*setting_new(void)
 	sg = (t_setting *)malloc(sizeof(t_setting));
 	sg->m = (t_map *)malloc(sizeof(t_map));
 	sg->mlx = mlx_init();
-	sg->mlx_win = mlx_new_window(sg->mlx, 1920, 1200, "HELLO WOULD!");
+	sg->mlx_win = mlx_new_window(sg->mlx, 1920, 1200, "SO_LONG");
 	sg->buck_img = malloc(sizeof(img_data));
 	sg = all_img_coordinate_new(sg);
 	return (sg);
 }
 
-void	setting_print(t_setting *sg)
+void	img_delete(t_setting *sg)
 {
-	if (sg == NULL)
-		return ;
-	printf("Window: %p\n", sg->mlx_win);
-	printf("Background Image: %p (x:%d, y:%d)\n", sg->buck_img->img,
-		sg->buck_img->x, sg->buck_img->y);
-	printf("Character Image: %p (x:%d, y:%d)\n", sg->chara_img->img,
-		sg->chara_img->x, sg->chara_img->y);
-}
-
-void	setting_delete(t_setting *sg)
-{
-	if (sg == NULL)
-		return ;
 	if (sg->buck_img != NULL)
 	{
 		if (sg->buck_img->img != NULL)
@@ -97,6 +84,13 @@ void	setting_delete(t_setting *sg)
 		if (sg->coin_img->img != NULL)
 			mlx_destroy_image(sg->mlx, sg->coin_img->img);
 	}
+}
+
+void	setting_delete(t_setting *sg)
+{
+	if (sg == NULL)
+		return ;
+	img_delete(sg);
 	if (sg->mlx_win != NULL)
 		mlx_destroy_window(sg->mlx, sg->mlx_win);
 	if (sg->mlx != NULL)

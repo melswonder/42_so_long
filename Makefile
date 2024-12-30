@@ -1,7 +1,7 @@
 NAME = so_long
 LIB = so_long.a
 
-SRCS = check_map.c map_new_delete.c map_open_read.c map_utils.c so_long_new_delete.c view_window_info.c backtracking.c main.c
+SRCS = check_map.c map_new_delete.c map_open_read.c map_free_clean.c map_error.c map_utils.c so_long_new_delete.c view_window_info.c backtracking.c main.c
 OBJS = $(SRCS:.c=.o)
 MINI = minilibx-linux/libmlx.a -L. -lXext -lX11
 CC = cc
@@ -29,9 +29,9 @@ v: $(NAME)
 clean:
 	rm -f $(OBJS)
 
-fclean: clean
+f: clean
 	rm -f $(LIB) $(NAME)
 
-re: fclean all
+re: f all
 
-.PHONY: all clean fclean re
+.PHONY: all clean f re

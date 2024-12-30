@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/30 15:46:00 by hirwatan          #+#    #+#             */
+/*   Updated: 2024/12/30 15:46:13 by hirwatan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 #endif
@@ -5,11 +17,11 @@
 #include "minilibx-linux/mlx.h"
 #include <X11/Xlib.h>
 #include <X11/extensions/XShm.h>
-#include <fcntl.h> // open
+#include <fcntl.h>
 #include <limits.h>
 #include <stdint.h>
-#include <stdio.h>  // NULL, size_t
-#include <stdlib.h> // malloc, free
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h> // strlen
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -80,6 +92,7 @@ typedef struct s_host_information
 }				t_host_info;
 
 t_host_info		*host_new(void);
+void			visited_error_free(int **visited, int i);
 void			setting_delete(t_setting *sg);
 void			map_new(t_map *m);
 int				open_file(const char *filename);

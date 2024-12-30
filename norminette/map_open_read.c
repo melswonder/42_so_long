@@ -6,11 +6,20 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 14:18:04 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/28 14:19:56 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:28:08 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	read_line_new(int *buf_size, char **buf, int *i)
+{
+	*buf_size = 128;
+	*buf = malloc(*buf_size);
+	if (!*buf)
+		return ;
+	*i = 0;
+}
 
 char	*ft_readline(int fd)
 {
@@ -19,11 +28,7 @@ char	*ft_readline(int fd)
 	int		i;
 	char	c;
 
-	buf_size = 128;
-	buf = malloc(buf_size);
-	if (!buf)
-		return (NULL);
-	i = 0;
+	read_line_new(&buf_size, &buf, &i);
 	while (read(fd, &c, 1) > 0)
 	{
 		if (c == '\n')
