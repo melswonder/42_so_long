@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:45:11 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:58:59 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ t_host_info	*host_new(void)
 	return (host);
 }
 
-t_setting	*setting_new(void)
+t_setting	*setting_new(void *value)
 {
 	t_setting	*sg;
-
-	sg = (t_setting *)malloc(sizeof(t_setting));
-	sg->m = (t_map *)malloc(sizeof(t_map));
+	sg = value;
+	// sg = (t_setting *)malloc(sizeof(t_setting));
+	// sg->m = (t_map *)malloc(sizeof(t_map));
 	sg->mlx = mlx_init();
 	sg->mlx_win = mlx_new_window(sg->mlx, 1920, 1200, "SO_LONG");
 	sg->buck_img = malloc(sizeof(t_img_data));

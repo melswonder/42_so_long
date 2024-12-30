@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:46:00 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:33:00 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:59:25 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int				check_collection(t_map *m);
 int				**initialize_visited(t_map *m);
 int				check_rectangle(t_map *m);
 int				backtrack(t_map *m, int x, int y, int **visited);
-t_setting		*setting_new(void);
+t_setting		*setting_new(void *value);
 void			check_direction(int x, int y, int i, int coords[2]);
 int				is_valid(t_map *m, int x, int y, int **visited);
 void			map_info_put(t_setting *sg, t_map *m);
