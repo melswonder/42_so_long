@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 16:30:23 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:31:33 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,32 @@ void	load_map(t_map *m, int fd)
 		row++;
 		line = ft_readline(fd);
 	}
+}
+
+int	backtrack(t_map *m, int x, int y, int **visited)
+{
+	int	i;
+	int	coords[2];
+
+	if (m->map[y][x] == 'C')
+		m->collected++;
+	if (m->map[y][x] == 'E' && m->collected == m->total_c)
+		return (1);
+	visited[y][x] = 1;
+	i = 0;
+	while (i < 4)
+	{
+		check_direction(x, y, i, coords);
+		if (is_valid(m, coords[0], coords[1], visited))
+		{
+			if (backtrack(m, coords[0], coords[1], visited) == 1)
+				return (1);
+			if (m->map[coords[1]][coords[0]] == 'C')
+				m->collected--;
+		}
+		i++;
+	}
+	return (visited[y][x] = 0, 0);
 }
 
 int	check_valid_map(t_map *m)

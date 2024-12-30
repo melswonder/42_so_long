@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:46:00 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 16:32:41 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:33:00 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h> // strlen
+# include <string.h>
 # include <sys/ipc.h>
 # include <sys/shm.h>
-# include <unistd.h> // write, read, close
+# include <unistd.h>
 
-# define x_max 1920 //決めないほうがいい
-# define y_max 1200 //決めないほうがいい
+# define X_MAX 1920
+# define Y_MAX 1200
 
-# define w_key 119
-# define a_key 97
-# define s_key 115
-# define d_key 100
-# define left_key 65361
-# define up_key 65362
-# define right_key 65363
-# define down_key 65364
-# define esc_key 65307
+# define W_KEY 119
+# define A_KEY 97
+# define S_KEY 115
+# define D_KEY 100
+# define LEFT_KEY 65361
+# define UP_KEY 65362
+# define RIGHT_KEY 65363
+# define DOWN_KEY 65364
+# define ESC_KEY 65307
 
 typedef struct i_data
 {
@@ -46,19 +46,19 @@ typedef struct i_data
 	int			y;
 	int			width;
 	int			height;
-}				img_data;
+}				t_img_data;
 
 typedef struct s_map
 {
-	char **map; // マップ本体(行の配列)
-	int height; // 行数
-	int width;  // 列数
-	int totalC; // マップに存在する'C'の総数
-	int			countP;
-	int			countE;
+	char		**map;
+	int			height;
+	int			width;
+	int			total_c;
+	int			count_p;
+	int			count_e;
 	int			collected;
-	int start_x; // 'P'のx座標
-	int start_y; // 'P'のy座標
+	int			start_x;
+	int			start_y;
 }				t_map;
 
 typedef struct s_data
@@ -69,11 +69,11 @@ typedef struct s_data
 	int			line_length;
 	int			endian;
 	t_map		*m;
-	img_data	*buck_img;
-	img_data	*chara_img;
-	img_data	*wall_img;
-	img_data	*coin_img;
-	img_data	*exit_img;
+	t_img_data	*buck_img;
+	t_img_data	*chara_img;
+	t_img_data	*wall_img;
+	t_img_data	*coin_img;
+	t_img_data	*exit_img;
 }				t_setting;
 
 typedef struct s_read
@@ -108,6 +108,8 @@ int				**initialize_visited(t_map *m);
 int				check_rectangle(t_map *m);
 int				backtrack(t_map *m, int x, int y, int **visited);
 t_setting		*setting_new(void);
+void			check_direction(int x, int y, int i, int coords[2]);
+int				is_valid(t_map *m, int x, int y, int **visited);
 void			map_info_put(t_setting *sg, t_map *m);
 int				check_valid_map(t_map *m);
 void			setup_map_environment(t_setting *sg, t_map *m);

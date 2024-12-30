@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 16:25:36 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:30:44 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,27 @@ int	handle_key_event(int keycode, void *param)
 	static int	count_c = 0;
 
 	sg = (t_setting *)param;
-	if (keycode == esc_key)
+	if (keycode == ESC_KEY)
 	{
 		setting_delete(sg);
 		exit(0);
 	}
-	if (keycode == a_key || keycode == left_key)
+	if (keycode == A_KEY || keycode == LEFT_KEY)
 	{
 		if (sg->m->map[sg->chara_img->x][sg->chara_img->y - 1] != '1')
 			sg->chara_img->y--;
 	}
-	else if (keycode == d_key || keycode == right_key)
+	else if (keycode == D_KEY || keycode == RIGHT_KEY)
 	{
 		if (sg->m->map[sg->chara_img->x][sg->chara_img->y + 1] != '1')
 			sg->chara_img->y++;
 	}
-	else if (keycode == w_key || keycode == up_key)
+	else if (keycode == W_KEY || keycode == UP_KEY)
 	{
 		if (sg->m->map[sg->chara_img->x - 1][sg->chara_img->y] != '1')
 			sg->chara_img->x--;
 	}
-	else if (keycode == s_key || keycode == down_key)
+	else if (keycode == S_KEY || keycode == DOWN_KEY)
 	{
 		if (sg->m->map[sg->chara_img->x + 1][sg->chara_img->y] != '1')
 			sg->chara_img->x++;
@@ -76,7 +76,7 @@ int	handle_key_event(int keycode, void *param)
 		sg->m->map[sg->chara_img->x][sg->chara_img->y] = '0';
 		count_c++;
 	}
-	if (sg->m->totalC == count_c
+	if (sg->m->total_c == count_c
 		&& sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'E')
 	{
 		setting_delete(sg);

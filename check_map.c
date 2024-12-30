@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:04:08 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 16:30:25 by hirwatan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:31:22 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ int	check_collection(t_map *m)
 		while (x < m->width)
 		{
 			if (m->map[y][x] == 'P')
-				m->countP++;
+				m->count_p++;
 			else if (m->map[y][x] == 'C')
-				m->totalC++;
+				m->total_c++;
 			else if (m->map[y][x] == 'E')
-				m->countE++;
+				m->count_e++;
 			else if (m->map[y][x] != '0' && m->map[y][x] != '1')
 				return (0);
 			x++;
 		}
 		y++;
 	}
-	if (m->countP != 1 || m->totalC < 1 || m->countE < 1)
+	if (m->count_p != 1 || m->total_c < 1 || m->count_e < 1)
 		return (0);
 	return (1);
 }
@@ -104,48 +104,26 @@ int	is_valid(t_map *m, int x, int y, int **visited)
 	return (0);
 }
 
-int	backtrack(t_map *m, int x, int y, int **visited)
+void	check_direction(int x, int y, int i, int coords[2])
 {
-	int	i;
-	int	nx;
-	int	ny;
-
-	if (m->map[y][x] == 'C')
-		m->collected++;
-	if (m->map[y][x] == 'E' && m->collected == m->totalC)
-		return (1);
-	visited[y][x] = 1;
-	i = 0;
-	while (i < 4)
+	if (i == 0)
 	{
-		if (i == 0)
-		{
-			nx = x;
-			ny = y + 1;
-		}
-		else if (i == 1)
-		{
-			nx = x + 1;
-			ny = y;
-		}
-		else if (i == 2)
-		{
-			nx = x;
-			ny = y - 1;
-		}
-		else
-		{
-			nx = x - 1;
-			ny = y;
-		}
-		if (is_valid(m, nx, ny, visited))
-		{
-			if (backtrack(m, nx, ny, visited) == 1)
-				return (1);
-			if (m->map[ny][nx] == 'C')
-				m->collected--;
-		}
-		i++;
+		coords[0] = x;
+		coords[1] = y + 1;
 	}
-	return (visited[y][x] = 0, 0);
+	else if (i == 1)
+	{
+		coords[0] = x + 1;
+		coords[1] = y;
+	}
+	else if (i == 2)
+	{
+		coords[0] = x;
+		coords[1] = y - 1;
+	}
+	else
+	{
+		coords[0] = x - 1;
+		coords[1] = y;
+	}
 }
