@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 14:16:01 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:14:05 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@ void	save_mapsize(int fd, t_map *m)
 
 int	allocate_memory(t_map *m)
 {
+	int i;
+	
+	i = 0;
 	m->map = (char **)malloc(sizeof(char *) * m->height);
 	if (!m->map)
+		return (write(1, "Error\n", 6),0);
+	while(i < m->height)
 	{
-		write(1, "Error\n", 6);
-		return (0);
+		m->map[i] = NULL;
+		i++;
 	}
 	return (1);
 }
@@ -83,6 +88,18 @@ int	backtrack(t_map *m, int x, int y, int **visited)
 	}
 	return (visited[y][x] = 0, 0);
 }
+void	free_visited(int **visited, int height)
+{
+    int	i;
+
+    i = 0;
+    while (i < height)
+    {
+        free(visited[i]);
+        i++;
+    }
+    free(visited);
+}
 
 int	check_valid_map(t_map *m)
 {
@@ -106,7 +123,8 @@ int	check_valid_map(t_map *m)
 		return (put_error_map_delete(m), 0);
 	m->collected = 0;
 	reachable = backtrack(m, m->start_x, m->start_y, visited);
-	if (reachable == 0)
+	if (!reachable)
 		return (write(1, "Error\n", 6), cleanup(m, visited), 0);
-	return (cleanup(m, visited), 1);
+	free_visited(visited,m->height);
+	return (1);
 }

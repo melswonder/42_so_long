@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:46:00 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:59:25 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:37:46 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_host_info		*host_new(void);
 void			visited_error_free(int **visited, int i);
 void			setting_delete(t_setting *sg);
 void			map_new(t_map *m);
+t_setting	*setting_new(t_setting	*sg);
 int				open_file(const char *filename);
 char			*ft_readline(int fd);
 int				ft_strlen(const char *str);
@@ -107,10 +108,9 @@ int				check_collection(t_map *m);
 int				**initialize_visited(t_map *m);
 int				check_rectangle(t_map *m);
 int				backtrack(t_map *m, int x, int y, int **visited);
-t_setting		*setting_new(void *value);
 void			check_direction(int x, int y, int i, int coords[2]);
 int				is_valid(t_map *m, int x, int y, int **visited);
-void			map_info_put(t_setting *sg, t_map *m);
+void			map_info_put(t_setting *sg);
 int				check_valid_map(t_map *m);
-void			setup_map_environment(t_setting *sg, t_map *m);
+void			setup_map_environment(t_setting *sg);
 #endif

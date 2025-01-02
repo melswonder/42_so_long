@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 11:39:19 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 21:28:17 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:11:31 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void map_new(t_map *m)
 {
-	m = (t_map *)malloc(sizeof(t_map));
 	if(m == NULL)
 	{
 		free(m);
 		return;
 	}
-	m->map = 0;
+	m->map = NULL;
 	m->height = 0;
 	m->width = 0;
 	m->total_c = 0;
 	m->count_p = 0;
 	m->count_e = 0;
+	m->collected = 0;
 	m->start_x = 0;
 	m->start_y = 0;
 }

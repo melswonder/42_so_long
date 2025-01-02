@@ -6,30 +6,26 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 14:18:04 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 14:16:50 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:45:53 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	read_line_new(int *buf_size, char **buf, int *i)
-{
-	*buf_size = 128;
-	*buf = malloc(*buf_size);
-	if (!*buf)
-		return ;
-	*i = 0;
-}
 
 char	*ft_readline(int fd)
 {
 	int		buf_size;
 	char	*buf;
 	int		i;
-	char	c;
+	int		bytes;
 
-	read_line_new(&buf_size, &buf, &i);
-	while (read(fd, &c, 1) > 0)
+	buf_size = 128;
+	buf = malloc(buf_size);
+	if (!buf)
+		return (NULL);
+	i = 0;
+	char c = 0; /* 初期化 */
+	while ((bytes = read(fd, &c, 1)) > 0)
 	{
 		if (c == '\n')
 			break ;
@@ -42,9 +38,10 @@ char	*ft_readline(int fd)
 				return (NULL);
 		}
 	}
-	if (i == 0 && c != '\n')
+	if (i == 0 && bytes <= 0)
 		return (free(buf), NULL);
-	return (buf[i] = '\0', buf);
+	buf[i] = '\0';
+	return (buf);
 }
 
 int	open_file(const char *filename)

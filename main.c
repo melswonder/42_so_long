@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 14:24:52 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:04:03 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,10 @@
 // 		exit(0);
 // }
 
-void	put_map(t_map *m)
-{
-	int	i;
-
-	i = 0;
-	while (m->map[i])
-	{
-		printf("%d:%s\n", i, m->map[i]);
-		i++;
-	}
-}
-
 void	put_all_xpm(t_setting *sg)
 {
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->buck_img->img, 0, 0);
-	map_info_put(sg, sg->m);
+	map_info_put(sg);
 	mlx_put_image_to_window(sg->mlx, sg->mlx_win, sg->chara_img->img,
 		sg->chara_img->y * 64, sg->chara_img->x * 64);
 }
@@ -114,22 +102,24 @@ int	main(void)
 	int			ret;
 
 	sg = (t_setting *)malloc(sizeof(t_setting));
+	if(!sg)
+		return (1);
+	sg->m = NULL;
+	sg->mlx = NULL;
+	sg->mlx_win = NULL;
 	sg->m = (t_map*)malloc(sizeof(t_map));
+	if(!sg->m)
+		return (free(sg),1);
 	ret = check_valid_map(sg->m);
 	if (ret == 0)
-	{
-		free(sg->m);
-		free(sg);
-		return (0);
-	}
+		return (free(sg->m),free(sg),0);
 	sg = setting_new(sg);
-	// setting_put(sg);
+	setup_map_environment(sg);
 	host = host_new();
-	setup_map_environment(sg, sg->m);
-	put_map(sg->m);
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	put_all_xpm(sg);
 	mlx_loop(sg->mlx);
+	setting_delete(sg);
 	return (0);
 }
 // cc main.c so_long_util.c so_long_new_delete.c -L. -lmlx_Linux -lXext -lX11
