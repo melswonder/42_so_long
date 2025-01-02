@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:59:11 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:24:52 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,8 @@ void	put_all_xpm(t_setting *sg)
 		sg->chara_img->y * 64, sg->chara_img->x * 64);
 }
 
-int	handle_key_event(int keycode, void *param)
+void map_move(int keycode,t_setting *sg)
 {
-	t_setting	*sg;
-	static int	count_c = 0;
-
-	sg = (t_setting *)param;
-	if (keycode == ESC_KEY)
-	{
-		setting_delete(sg);
-		exit(0);
-	}
 	if (keycode == A_KEY || keycode == LEFT_KEY)
 	{
 		if (sg->m->map[sg->chara_img->x][sg->chara_img->y - 1] != '1')
@@ -70,7 +61,22 @@ int	handle_key_event(int keycode, void *param)
 	{
 		if (sg->m->map[sg->chara_img->x + 1][sg->chara_img->y] != '1')
 			sg->chara_img->x++;
+	}	
+}
+
+
+int	handle_key_event(int keycode, void *param)
+{
+	t_setting	*sg;
+	static int	count_c = 0;
+
+	sg = (t_setting *)param;
+	if (keycode == ESC_KEY)
+	{
+		setting_delete(sg);
+		exit(0);
 	}
+	map_move(keycode,sg);
 	if (sg->m->map[sg->chara_img->x][sg->chara_img->y] == 'C')
 	{
 		sg->m->map[sg->chara_img->x][sg->chara_img->y] = '0';
@@ -95,6 +101,12 @@ int	handle_key_event(int keycode, void *param)
 // 	exit(0);
 // }
 
+// void setting_put(t_setting *sg)
+// {
+	
+// 	printf("");
+// }
+
 int	main(void)
 {
 	t_setting	*sg;
@@ -111,6 +123,7 @@ int	main(void)
 		return (0);
 	}
 	sg = setting_new(sg);
+	// setting_put(sg);
 	host = host_new();
 	setup_map_environment(sg, sg->m);
 	put_map(sg->m);
