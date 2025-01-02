@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 22:15:11 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 19:04:42 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:46:03 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_host_info	*host_new(void)
 	t_host_info	*host;
 
 	host = (t_host_info *)malloc(sizeof(t_host_info));
+	if(!host)
+		return (0);
 	host->move_count = 0;
 	return (host);
 }

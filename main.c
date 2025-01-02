@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 19:04:03 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:46:36 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	handle_key_event(int keycode, void *param)
 int	main(void)
 {
 	t_setting	*sg;
-	t_host_info	*host;
+	// t_host_info	*host;
 	int			ret;
 
 	sg = (t_setting *)malloc(sizeof(t_setting));
@@ -115,11 +115,12 @@ int	main(void)
 		return (free(sg->m),free(sg),0);
 	sg = setting_new(sg);
 	setup_map_environment(sg);
-	host = host_new();
+	// host = host_new();
 	mlx_hook(sg->mlx_win, 2, 1L << 0, handle_key_event, sg);
 	put_all_xpm(sg);
 	mlx_loop(sg->mlx);
 	setting_delete(sg);
+	// free(host); 歩数カウントまた後で
 	return (0);
 }
 // cc main.c so_long_util.c so_long_new_delete.c -L. -lmlx_Linux -lXext -lX11
