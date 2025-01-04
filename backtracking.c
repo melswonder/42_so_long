@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:09:38 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 18:14:05 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/04 11:47:42 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,9 @@ int	check_valid_map(t_map *m)
 		return (put_error_map_delete(m), 0);
 	m->collected = 0;
 	reachable = backtrack(m, m->start_x, m->start_y, visited);
-	if (!reachable)
-		return (write(1, "Error\n", 6), cleanup(m, visited), 0);
+	printf("reachable=%d\n",reachable);
+	if (!reachable)//koko
+		return (write(1, "KO\n", 3), cleanup(m, visited), 0);
 	free_visited(visited,m->height);
 	return (1);
 }

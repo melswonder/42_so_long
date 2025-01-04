@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:04:08 by hirwatan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:31:22 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/04 11:41:05 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	check_errors_find_p(t_map *m)
 		}
 		y++;
 	}
+	m->map[m->start_y][m->start_x] = '0';
 	return (1);
 }
 

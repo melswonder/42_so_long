@@ -6,7 +6,7 @@
 /*   By: hirwatan <hirwatan@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 18:28:05 by hirwatan          #+#    #+#             */
-/*   Updated: 2025/01/02 19:46:36 by hirwatan         ###   ########.fr       */
+/*   Updated: 2025/01/04 11:41:43 by hirwatan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	main(void)
 	if(!sg->m)
 		return (free(sg),1);
 	ret = check_valid_map(sg->m);
+	printf("ret=%d\n",ret);
 	if (ret == 0)
 		return (free(sg->m),free(sg),0);
 	sg = setting_new(sg);
